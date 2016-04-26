@@ -23,6 +23,8 @@
         {!! Form::text('answer_2', $assignments->answer_2, array('question' => '','maxlength' => 100 )) !!}<br>
         {!! Form::label('answer_3', 'Antwoord 3:') !!}
         {!! Form::text('answer_3', $assignments->answer_3, array('question' => '','maxlength' => 100 )) !!}<br>
+        {!! Form::label ('location' , 'Locatie:') !!}
+        {!! Form::text('location', $assignments->location) !!}
         </div>
         <div style="float :left; width: 20px;">
         {!! Form::radio('correct_answer','answer_1',true ) !!}

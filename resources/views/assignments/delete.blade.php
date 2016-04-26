@@ -25,6 +25,7 @@
 	<p id="answer1">{{ $assignment->answer_1 }}</p>
 	<p id="answer2">{{ $assignment->answer_2 }}</p>
 	<p id="answer3">{{ $assignment->answer_3 }}</p>
+	<p>Locatie: {{ $assignment->location }}</p>
 	<p id="correct_answer">{{ $assignment->correct_answer }}</p>
 	<p>Laatst geupdate: {{ $assignment->updated_at }}</p>
 	<p>gecreerd: {{ $assignment->created_at }}</p>

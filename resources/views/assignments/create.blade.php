@@ -6,7 +6,7 @@
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <a href="{{url('/opdrachten')}}">Terug</a>
+                    <a href="{{url('/home/opdrachten')}}">Terug</a>
                     <h1>Nieuwe opdracht</h1>
                     <div>
                       {!! Form::open(array('route' => 'home.opdrachten.store', 'method' => 'post')) !!}
@@ -30,6 +30,8 @@
                         {!! Form::text('answer_2', null, array('question' => '','maxlength' => 100 )) !!}<br>
                         {!! Form::label('answer_3', 'Antwoord 3:') !!}
                         {!! Form::text('answer_3', null, array('question' => '','maxlength' => 100 )) !!}<br>
+                        {!! Form::label ('location' , 'Locatie:') !!}
+                        {!! Form::text('location', null) !!}
                         </div>
                         <div style="float :left; width: 20px;">
                         {!! Form::radio('correct_answer','answer_1',true ) !!}

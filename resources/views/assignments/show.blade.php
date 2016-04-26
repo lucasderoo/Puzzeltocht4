@@ -14,17 +14,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>fe;sljfoiesHFljsHlfukhd</title>
+	<title>Opdracht</title>
 <body>
 <div>
 	<p>Id: {{ $assignment->id }}</p>
 	<p>Type: {{ $assignment->type }}</p>
 	<p>Titel: {{ $assignment->title }}</p>
 	<p>Vraag: {{ $assignment->question }}</p>
-	<p id="answer1">{{ $assignment->answer_1 }}</p>
-	<p id="answer2">{{ $assignment->answer_2 }}</p>
-	<p id="answer3">{{ $assignment->answer_3 }}</p>
+	<p id="answer1">Antwoord 1: {{ $assignment->answer_1 }}</p>
+	<p id="answer2">Antwoord 2:{{ $assignment->answer_2 }}</p>
+	<p id="answer3">Antwoord 3:{{ $assignment->answer_3 }}</p>
 	<p id="correct_answer">{{ $assignment->correct_answer }}</p>
+	<p>Locatie: {{ $assignment->location }}</p>
 	<p>Laatst geupdate: {{ $assignment->updated_at }}</p>
 	<p>gecreerd: {{ $assignment->created_at }}</p>
 </div>

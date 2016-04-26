@@ -13,7 +13,8 @@ class Assignments extends Model
         'answer_1',
         'answer_2',
         'answer_3',
-        'correct_answer'
+        'correct_answer',
+        'location'
     ];
     protected $table = 'assignments';
 }

@@ -20,8 +20,14 @@ class TripsController extends Controller
 	}
   	public function create()
   	{
+  		//$trips = Request::all();
+  		//$newtrip = Trips::create($trips);
+  		//$newtripid = $newtrip->id;
+  		//return $newtrip;
   		$assignments = DB::table('assignments')->get();
-   		return view('trips.create',compact('assignments', 'classname'));
+  		//$assignments = DB::table('assignments')->where('tripids' ,$newtripid)->get();
+  		return view('trips.create',compact('trips', 'assignments'));
+
   	}
   	/**
   	* Store a newly created resource in storage.

@@ -73,6 +73,7 @@ table{
                             {!! Form::text('tripname', null, array('maxlength' => 100 )) !!}
                         </div>
                     </div>
+
                     <div class="midtop">
                         <div class="midtopbuttons">
                             <a href="{{url('home/opdrachten/create')}}">Nieuwe vraag</a>
@@ -126,7 +127,7 @@ table{
                                         $classname = "btn btn-success";
                                     }
                                 ?>
-                                <td><a class="{{{ $classname }}}" href="{{url('/home/opdrachten/active',$assignment->id)}}">{{{ $text }}}</a></td>
+                                <!--<td><a class="{{{ $classname }}}" href="{{url('/home/opdrachten/active',$assignment->id)}}">{{{ $text }}}</a></td>-->
                             </tr>
                             @endforeach
                             </tdbody>

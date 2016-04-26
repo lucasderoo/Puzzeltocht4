@@ -32,6 +32,7 @@ class AssignmentsController extends Controller
    	$assignments=Request::all();
     Assignments::create($assignments);
     return redirect('/home/tochten/create');
+    
   }
   /**
   * Display the specified resource.
@@ -83,7 +84,7 @@ class AssignmentsController extends Controller
     return redirect('/home/tochten/create');
   }
 
-  public function active($id)
+  /*public function active($id)
   {
     $assignments = Assignments::find($id);
     if($assignments->active == "Y"){
@@ -93,7 +94,7 @@ class AssignmentsController extends Controller
       DB::table('assignments')->where('id', $id)->update(['active' => "Y"]);
     }
     return redirect('/home/tochten/create');
-  }
+  }*/
   /**
   * Remove the specified resource from storage.
   *
