@@ -64,18 +64,19 @@ table{
             <div class="panel panel-default">
                 <div class="panel-body">
                     <div>
-                      {!! Form::model($trips,['method' => 'PATCH','route'=>['home.tochten.update',$trips->id]]) !!}
+                      {!! Form::open(['method' => 'post', 'url' => '/home/tochten/update/'. $tripid]) !!}
                     </div>
                     <div class="top">
                         <h1>Nieuwe tocht</h1>
                         <div class="TopInput">
                             {!! Form::label('Tripname', 'Tochtnaam:') !!}
-                            {!! Form::text('tripname', $trips->tripname, array('maxlength' => 100 )) !!}
+                            {!! Form::text('tripname', $trip->tripname, array('maxlength' => 100 )) !!}
                         </div>
                     </div>
+
                     <div class="midtop">
                         <div class="midtopbuttons">
-                            <a href="{{url('home/opdrachten/create')}}">Nieuwe vraag</a>
+                            <a href="{{url('home/opdrachten/create',$tripid)}}">Nieuwe vraag</a>
                             <a href="?">Nieuwe ????</a>
                             <a href="?">Nieuwe ????</a>
                             <a href="?">Nieuwe ????</a>
@@ -83,7 +84,7 @@ table{
                         </div>
                     </div>
                     <div class="midmid">
-                    <?php if ($assignments == []) : ?>
+                    <?php if ($assignments == "") : ?>
                             <div class="no-data">
                                 <h1>No data found!</h1>
                             </div>
@@ -106,7 +107,7 @@ table{
                         </script>
                             <tdbody>
                             @foreach ($assignments as $assignment)
-                            <tr class='clickable-row DataTR' data-href="{{url('/home/opdrachten',$assignment->id)}}">
+                            <tr class='clickable-row DataTR' data-href="/home/opdrachten/show/{{$assignment->id}}/{{$tripid}}">
                                 <td>{{ $assignment->type }}</td>
                                 <td>{{ $assignment->title }}</td>
                                 <?php 
@@ -114,12 +115,8 @@ table{
                                     $maxquestions = substr($questions, 0, 10);
                                 ?>
                                 <td>{{{ $maxquestions }}} ...</td>
-                                <td><a class="btn btn-info" href="{{route('home.opdrachten.edit',$assignment->id)}}">edit</a></td>
-                                <td>
-                                {!! Form::open(['method' => 'DELETE', 'route' => ['home.opdrachten.destroy', $assignment->id]]) !!}
-                                {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-                                {!! Form::close() !!}
-                                </td>
+                                <td><a href="/home/opdrachten/edit/{{$assignment->id}}/{{$tripid}}" class="btn btn-info">Edit</a></td>
+                                <td><a href="/home/opdrachten/delete/{{$assignment->id}}/{{$tripid}}" class="btn btn-danger">Delete</a></td>
                                 <?php 
                                     if($assignment->active == "N"){
                                         $text = "Not active";
@@ -137,7 +134,7 @@ table{
                     </table>
                     <?php endif; ?>
                     </div>    
-                        {!! Form::submit('Save', ['class' => 'btn btn-primary form-control']) !!}
+                        {!! Form::submit('Update', ['class' => 'btn btn-primary form-control']) !!}
                     </div>
                         {!! Form::close() !!}
                     </div>

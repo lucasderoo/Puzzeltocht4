@@ -9,7 +9,7 @@
                     <a href="{{url('/home/opdrachten')}}">Terug</a>
                     <h1>Nieuwe opdracht</h1>
                     <div>
-                      {!! Form::open(array('route' => 'home.opdrachten.store', 'method' => 'post')) !!}
+                      {!! Form::open(['method' => 'post', 'url' => '/home/opdrachten/store/' . $tripid .'/'.$prevurl]) !!}
                     </div>
                     <div>
                         {!! Form::label('type', 'Type:') !!}

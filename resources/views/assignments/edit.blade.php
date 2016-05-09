@@ -4,7 +4,7 @@
     <title>{{$assignments->title}} - Aanpassen</title>
 </head>
 <body>
-       {!! Form::model($assignments,['method' => 'PATCH','route'=>['home.opdrachten.update',$assignments->id]]) !!}
+       {!! Form::open(['method' => 'get', 'url' => '/home/opdrachten/update/' . $id .'/'. $tripid . '/' .$prevurl]) !!}
         {!! Form::label('type', 'Type:') !!}
         {!! Form::select('type', [
        'question' => 'Vraag',

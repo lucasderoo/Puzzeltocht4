@@ -43,5 +43,6 @@
 	}
 
 </script>
+<button><a href="http://puzzeltocht.dev/home/tochten/create/{{ $tripid }}">Terug</a></button>
 </body>
 </html>

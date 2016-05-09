@@ -64,7 +64,7 @@ table{
             <div class="panel panel-default">
                 <div class="panel-body">
                     <div>
-                      {!! Form::open(array('route' => 'home.tochten.store', 'method' => 'post')) !!}
+                      {!! Form::open(['method' => 'post', 'url' => '/home/tochten/store/'. $tripid]) !!}
                     </div>
                     <div class="top">
                         <h1>Nieuwe tocht</h1>
@@ -76,15 +76,15 @@ table{
 
                     <div class="midtop">
                         <div class="midtopbuttons">
-                            <a href="{{url('home/opdrachten/create')}}">Nieuwe vraag</a>
+                            <a href="{{url('home/opdrachten/create',$tripid)}}">Nieuwe vraag</a>
                             <a href="?">Nieuwe ????</a>
                             <a href="?">Nieuwe ????</a>
                             <a href="?">Nieuwe ????</a>
-                            <a href="?">Alle opdrachten</a>
+                            <a href="/home/opdrachten/connect/{{$tripid}}">Alle opdrachten</a>
                         </div>
                     </div>
                     <div class="midmid">
-                    <?php if ($assignments == []) : ?>
+                    <?php if ($assignmentids == "") : ?>
                             <div class="no-data">
                                 <h1>No data found!</h1>
                             </div>
@@ -106,8 +106,8 @@ table{
                         });
                         </script>
                             <tdbody>
-                            @foreach ($assignments as $assignment)
-                            <tr class='clickable-row DataTR' data-href="{{url('/home/opdrachten',$assignment->id)}}">
+                            @foreach ($assignmentids as $assignment)
+                            <tr class='clickable-row DataTR' data-href="/home/opdrachten/show/{{$assignment->id}}/{{$tripid}}">
                                 <td>{{ $assignment->type }}</td>
                                 <td>{{ $assignment->title }}</td>
                                 <?php 
@@ -115,8 +115,8 @@ table{
                                     $maxquestions = substr($questions, 0, 10);
                                 ?>
                                 <td>{{{ $maxquestions }}} ...</td>
-                                <td><a class="btn btn-info" href="{{route('home.opdrachten.edit',$assignment->id)}}">edit</a></td>
-                                <td><a class="btn btn-danger"href="{{url('/home/opdrachten/delete',$assignment->id)}}">Delete</a></td>
+                                <td><a href="/home/opdrachten/edit/{{$assignment->id}}/{{$tripid}}" class="btn btn-info">Edit</a></td>
+                                <td><a href="/home/opdrachten/delete/{{$assignment->id}}/{{$tripid}}" class="btn btn-danger">Delete</a></td>
                                 <?php 
                                     if($assignment->active == "N"){
                                         $text = "Not active";
@@ -127,7 +127,7 @@ table{
                                         $classname = "btn btn-success";
                                     }
                                 ?>
-                                <!--<td><a class="{{{ $classname }}}" href="{{url('/home/opdrachten/active',$assignment->id)}}">{{{ $text }}}</a></td>-->
+                                <td><a class="{{{ $classname }}}" href="{{url('/home/opdrachten/active',$assignment->id)}}">{{{ $text }}}</a></td>
                             </tr>
                             @endforeach
                             </tdbody>

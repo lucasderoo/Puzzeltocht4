@@ -44,11 +44,15 @@
           <ul class="nav navbar-nav navbar-right">
           @if (Auth::guest())
             <li><a href="{{ url('/login') }}">Login</a></li>
-          @else
+          @elseif (Auth::user()->role == '3')
+            <li><a href="{{ url('/logout') }}">Logout</a></li>
+          @elseif (Auth::user()->role == '2')
+            <li><a href="{{ url('/logout') }}">Logout</a></li>
+          @elseif (Auth::user()->role == '1')
             <li><a href="{{ url('/home/tochten') }}">Tochten</a></li>
             <li><a href="{{ url('/home/opdrachten') }}">Opdrachten</a></li>
-            <li><a href="{{ url('/logout') }}">Logout</a></li>
             <li><a href="{{ url('/register') }}">Register</a></li>
+            <li><a href="{{ url('/logout') }}">Logout</a></li>
         @endif
           </ul>
         </div>

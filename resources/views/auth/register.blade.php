@@ -63,6 +63,14 @@
                                     </span>
                                 @endif
                             </div>
+                            <label class="col-md-4 control-label">Role:</label>
+                            <div class="col-md-6">
+                                <select name="role" class="">
+                                  <option value="1">Beheerder</option>
+                                  <option value="2">Superuser</option>
+                                  <option value="3">Leerling</option>
+                                </select>
+                            </div>
                         </div>
 
                         <div class="form-group">

@@ -8,7 +8,7 @@ class Trips extends Model
 {
    protected $fillable=[
         'tripname',
-        'assignmentid'
+        'assignmentids'
     ];
     protected $table = 'trips';
 }

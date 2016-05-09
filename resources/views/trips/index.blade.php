@@ -1,3 +1,4 @@
+
 @extends('layouts.app')
 <style>
 a{
@@ -71,12 +72,12 @@ table{
                         <h1>Tochten</h1>
                     </div>
                     <div class="midmid">
+                    <p><a class="mida btn btn-success" href="{{url('/home/tochten/wait')}}">Niewe tocht</a></p>
                     <?php if ($trips == []) : ?>
-                            <div class="no-data">
+                        <div class="no-data">
                                 <h1>No data found!</h1>
                             </div>
                     <?php else : ?>
-                    <p><a class="mida btn btn-success" href="{{url('home/tochten/create')}}">Niewe tocht</a></p>
                     <table class="table-striped">
                             <tr>
                                 <th>Tripsnaam</th>
@@ -93,10 +94,10 @@ table{
                         </script>
                             <tdbody>
                             @foreach ($trips as $trip)
-                            <tr class='clickable-row DataTR' data-href="{{url('/home/opdrachten',$trip->id)}}">
+                            <tr class='clickable-row DataTR' data-href="/home/tochten/show/{{$trip->id}}">
                                 <td>{{ $trip->tripname }}</td>
-                                <td>{{ $trip->assignmentid }}</td>
-                                <td><a class="btn btn-info" href="{{route('home.tochten.edit',$trip->id)}}">edit</a></td>
+                                <td>{{ $trip->assignmentids }}</td>
+                                <td><a class="btn btn-info" href="/home/tochten/edit/{{$trip->id}}">edit</a></td>
                                 <td>
                                 {!! Form::open(['method' => 'DELETE', 'route' => ['home.tochten.destroy', $trip->id]]) !!}
                                 {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}

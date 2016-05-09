@@ -16,7 +16,7 @@
 <head>
 	<title>fe;sljfoiesHFljsHlfukhd</title>
 <body>
-	{!! Form::open(['method' => 'DELETE', 'route'=>['home.opdrachten.destroy', $assignment->id]]) !!}
+	 {!! Form::open(['method' => 'get', 'url' => '/home/opdrachten/destroy/' . $id .'/'. $tripid . '/' .$prevurl]) !!}
 <div>
 	<p>Id: {{ $assignment->id }}</p>
 	<p>Type: {{ $assignment->type }}</p>
