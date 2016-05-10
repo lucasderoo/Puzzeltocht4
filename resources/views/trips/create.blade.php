@@ -84,7 +84,7 @@ table{
                         </div>
                     </div>
                     <div class="midmid">
-                    <?php if ($assignmentids == "") : ?>
+                    <?php if ($assignments == "") : ?>
                             <div class="no-data">
                                 <h1>No data found!</h1>
                             </div>
@@ -106,7 +106,7 @@ table{
                         });
                         </script>
                             <tdbody>
-                            @foreach ($assignmentids as $assignment)
+                            @foreach ($assignments as $assignment)
                             <tr class='clickable-row DataTR' data-href="/home/opdrachten/show/{{$assignment->id}}/{{$tripid}}">
                                 <td>{{ $assignment->type }}</td>
                                 <td>{{ $assignment->title }}</td>

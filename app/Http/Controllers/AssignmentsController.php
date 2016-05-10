@@ -67,8 +67,9 @@ class AssignmentsController extends Controller
   {
     isLoggedIn();
     Auth();
-    //$assignments=Request::all($tripid);
-    /*$assignments = Assignments::create([
+    $assignments=Request::all();
+    //return $assignments;
+    $assignments = Assignments::create([
         'type' => $assignments['type'],
         'title' => $assignments['title'],
         'question' => $assignments['question'],
@@ -76,13 +77,30 @@ class AssignmentsController extends Controller
         'answer_2' => $assignments['answer_2'],
         'answer_3' => $assignments['answer_3'],
         'correct_answer' => $assignments['correct_answer'],
-        'tripids' => $tripid,
+        //'tripids' => $tripid,
         'location' => $assignments['location'],
-    ]);*/
-  //  header('Location: http://puzzeltocht.dev/home/tochten/'.$prevurl.'/' .$tripid);
+    ]);
     $trips = DB::table('trips')->where('id', $tripid)->get();
-
-    return $trips;
+    foreach($trips as $trip){
+      $assignmentids = $trip->assignmentids;
+    }
+    $assignmentidss = $assignments->id;
+    //$trips = DB::table('trips')->where('id', $tripid)->get();
+    foreach($trips as $trip){
+      //return $trip->assignmentids;
+    if($trip->assignmentids == ""){
+      DB::table('trips')->where('id', $tripid)->update([
+        'assignmentids' => $assignmentidss,
+      ]);
+    }
+    else{
+      DB::table('trips')->where('id', $tripid)->update([
+        'assignmentids' => $assignmentids .',' . $assignmentidss,
+      ]);
+    }
+    }
+    header('Location: http://puzzeltocht.dev/home/tochten/'.$prevurl.'/' .$tripid);
+    //$assignmentids = $assignments->id;
 
     //}
     //else{
@@ -108,7 +126,7 @@ class AssignmentsController extends Controller
   * @param  int  $id
   * @return Response
   */
-}
+  }
   public function show($id, $tripid)
   {
     isLoggedIn();

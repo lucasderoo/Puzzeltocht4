@@ -58,9 +58,9 @@ class TripsController extends Controller
   	{
       isLoggedIn();
       Auth();
-      $trip=Trips::find($tripid);
+      $trips=Trips::find($tripid);
 	  $assignments = DB::table('assignments')->get();
-	  foreach ($assignments as $assignment){
+	  /*foreach ($assignments as $assignment){
 	  	if(strpos($assignment->tripids, $tripid) !== false) {
 		    $assignmentids[] = $assignment;
 		    //return $assignment->tripids;
@@ -68,12 +68,19 @@ class TripsController extends Controller
 		else{
 			$assignmentids = "";
 		}
+	  }*/
+	  $assignmentids = $trips->assignmentids;
+	  if ($assignmentids == ""){
+	  	$assignments = "";
+	  }
+	  else{
+	  	$assignments = DB::select( DB::raw("SELECT * FROM assignments WHERE id IN($trips->assignmentids)") );
 	  }
 
 	  //return view('trips.show',compact('trip','assignments'));
 
 	  //$assignmentids = "";
-	  return view('trips.create',compact('assignmentids','tripid'));
+	  return view('trips.create',compact('assignments','tripid'));
 	}
   	/**
   	* Store a newly created resource in storage.
@@ -105,26 +112,9 @@ class TripsController extends Controller
   		return redirect('/home/tochten');*/
   		$trip = Request::all($tripid);
 
-	  	$assignments = DB::table('assignments')->get();
-
-		
-		foreach ($assignments as $assignment) {
-	  		if (strpos($assignment->tripids, $tripid) !== false) {
-		    $data[] = $assignment->id;
-		}
-		}
-		//$count = count($data);
-		//return $data;
-		$data = implode(',', $data);
-		//return $data;
-		//$array = json_decode(json_encode($assignmentids), True);
-	    //return $count;
-		   //return $array;
-		    //$count = count($assignmentids);
-			DB::table('trips')->where('id', $tripid)->update([
-				'tripname' => $trip['tripname'],
-	        	'assignmentids' => $data,
-	    	]);
+		DB::table('trips')->where('id', $tripid)->update([
+			'tripname' => $trip['tripname'],
+	    ]);
     	return redirect('/home/tochten'); 
 	}
 	/**
@@ -176,22 +166,9 @@ class TripsController extends Controller
 	  Auth();
 	  $trip = Request::all($tripid);
 
-	  $assignments = DB::table('assignments')->get();
-
-		
-		foreach ($assignments as $assignment) {
-	  		if (strpos($assignment->tripids, $tripid) !== false) {
-		    $assignmentids[] = $assignment;
-			}
-			else {
-				$assignmentids = "";
-			}
-		}
-		$count = count($assignmentids);
 		DB::table('trips')->where('id', $tripid)->update([
 			'tripname' => $trip['tripname'],
-        	'assignmentids' => $count,
-    	]);
+	    ]);
     	return redirect('/home/tochten'); 
 	}
 	
