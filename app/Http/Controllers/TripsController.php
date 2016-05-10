@@ -60,15 +60,7 @@ class TripsController extends Controller
       Auth();
       $trips=Trips::find($tripid);
 	  $assignments = DB::table('assignments')->get();
-	  /*foreach ($assignments as $assignment){
-	  	if(strpos($assignment->tripids, $tripid) !== false) {
-		    $assignmentids[] = $assignment;
-		    //return $assignment->tripids;
-		}
-		else{
-			$assignmentids = "";
-		}
-	  }*/
+
 	  $assignmentids = $trips->assignmentids;
 	  if ($assignmentids == ""){
 	  	$assignments = "";
@@ -76,10 +68,6 @@ class TripsController extends Controller
 	  else{
 	  	$assignments = DB::select( DB::raw("SELECT * FROM assignments WHERE id IN($trips->assignmentids)") );
 	  }
-
-	  //return view('trips.show',compact('trip','assignments'));
-
-	  //$assignmentids = "";
 	  return view('trips.create',compact('assignments','tripid'));
 	}
   	/**
@@ -91,25 +79,6 @@ class TripsController extends Controller
   	{
   		isLoggedIn();
   		Auth();
-  		/*$trip = Request::all($tripid);
-
-  		$assignments = DB::table('assignments')->where('tripids', $tripid)->get();
-
-  		$count = count($assignments);
-  		if($count < "1"){
-  			 "Te weinig opdrachten om een tocht te creëren";
-  		}
-  		else{
-			foreach($assignments as $assignment){
-				$names[] = $assignment->id;
-			}
-			$assignmentids = count($names);
-			DB::table('trips')->where('id', $tripid)->update([
-  				'tripname' => $trip['tripname'],
-            	'assignmentids' => $assignmentids,
-        	]);
-  		}
-  		return redirect('/home/tochten');*/
   		$trip = Request::all($tripid);
 
 		DB::table('trips')->where('id', $tripid)->update([

@@ -45,6 +45,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/home/opdrachten/show/{id}/{tripid}', 'AssignmentsController@show');
     Route::get('/home/opdrachten/active/{id}', 'AssignmentsController@active');
     Route::get('/home/opdrachten/connect/{tripid}', 'AssignmentsController@connect');
+    Route::post('/home/opdrachten/connectassignments/{tripid}/{prevurl}', 'AssignmentsController@connectassignments');
     Route::resource('/home/tochten/wait', 'TripsController@wait');
     Route::resource('/home/tochten', 'TripsController');
     Route::get('/home/tochten/create/{user}', 'TripsController@create');

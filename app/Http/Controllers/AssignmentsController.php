@@ -8,6 +8,7 @@ use Request;
 use Auth;
 use App\Assignments;
 use App\Http\Requests;
+use App\Trips;
 
 use Illuminate\Support\Facades\Redirect;
 
@@ -193,7 +194,6 @@ class AssignmentsController extends Controller
     isLoggedIn();
     Auth();
     Assignments::find($id)->delete();
-    //return redirect('/home/tochten/create');
     header('Location: http://puzzeltocht.dev/home/tochten/'.$prevurl.'/' .$tripid); 
 
   }
@@ -211,26 +211,37 @@ class AssignmentsController extends Controller
     }
     return redirect()->back();  
   }
-
-  public function connect($tripid)
+  public function connect($tripid){
+    $assignments = DB::table('assignments')->get();
+    $prevurl = $_SERVER['HTTP_REFERER'];
+    if($prevurl == "http://puzzeltocht.dev/home/tochten/create/".$tripid){
+        $prevurl = "create";
+    }
+    elseif($prevurl == "http://puzzeltocht.dev/home/tochten/edit/".$tripid){
+        $prevurl = "edit";
+    }
+    return view('assignments.connect',compact('assignments','tripid','prevurl'));
+  }
+  public function connectassignments($tripid, $prevurl)
   {
     isLoggedIn();
     Auth();
+    $trip=Trips::find($tripid);
+    $assignmentids = $_POST['connect'];
+    $assignmentidss = implode(',',$assignmentids);
     $assignments = DB::table('assignments')->get();
-    //foreach ($assignments as $assignment) {
-     // if (strpos($assignment->tripids, $tripid) !== false) {
-      //  $assignmentids[] = $assignment;
-      //}
-      //else {
-      //  $assignmentids = "";
-      // }
-   // }
-    //return $assignments;
-   // return $assignmentids;
-    return view('assignments.connect',compact('assignments'));
-    //echo implode(" ",$assignmentids);
-
-    //}
+    $assignmentids = $trip->assignmentids;
+    if($assignmentids == ""){
+      DB::table('trips')->where('id', $tripid)->update([
+        'assignmentids' => $assignmentidss,
+      ]);
+    }
+    else{
+      DB::table('trips')->where('id', $tripid)->update([
+        'assignmentids' => $assignmentids .',' . $assignmentidss,
+      ]);
+    }
+    header('Location: http://puzzeltocht.dev/home/tochten/'.$prevurl.'/' .$tripid);
   }
   /**
   * Remove the specified resource from storage.

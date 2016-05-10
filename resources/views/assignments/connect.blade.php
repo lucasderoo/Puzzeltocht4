@@ -18,6 +18,7 @@
 							<th>Laatst geupdate</th>
 							<th>gecreëerd</th>
 						</tr>
+						{!! Form::open(['method' => 'post', 'url' => '/home/opdrachten/connectassignments/'. $tripid . '/' .$prevurl]) !!}
 						<tdbody>
 							@foreach ($assignments as $assignment)
 						<tr>
@@ -29,10 +30,13 @@
 							<td>{{ $assignment->correct_answer }}</td>
 							<td>{{ $assignment->updated_at }}</td>
 							<td>{{ $assignment->created_at }}</td>
+							<td><input type="checkbox" name="connect[]" value="{{$assignment->id}}"></td>
 						</tr>
 							@endforeach
 						</tdbody>
 					</table>
+					{!! Form::submit('Update', ['class' => 'btn btn-primary form-control']) !!}
+					{!! Form::close() !!}
                 </div>
             </div>
         </div>
