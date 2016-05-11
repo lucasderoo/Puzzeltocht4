@@ -23,8 +23,6 @@ function Auth(){
       echo '<script>window.location.href = "/home";</script>';
     }
   }
-
-
     function isStudent(){
       if (Auth::user()->role != 'inactive') {
          echo '<script>window.location.href = "/login?error=login";</script>';
@@ -69,7 +67,6 @@ class AssignmentsController extends Controller
     isLoggedIn();
     Auth();
     $assignments=Request::all();
-    //return $assignments;
     $assignments = Assignments::create([
         'type' => $assignments['type'],
         'title' => $assignments['title'],
@@ -78,7 +75,6 @@ class AssignmentsController extends Controller
         'answer_2' => $assignments['answer_2'],
         'answer_3' => $assignments['answer_3'],
         'correct_answer' => $assignments['correct_answer'],
-        //'tripids' => $tripid,
         'location' => $assignments['location'],
     ]);
     $trips = DB::table('trips')->where('id', $tripid)->get();
@@ -86,9 +82,7 @@ class AssignmentsController extends Controller
       $assignmentids = $trip->assignmentids;
     }
     $assignmentidss = $assignments->id;
-    //$trips = DB::table('trips')->where('id', $tripid)->get();
     foreach($trips as $trip){
-      //return $trip->assignmentids;
     if($trip->assignmentids == ""){
       DB::table('trips')->where('id', $tripid)->update([
         'assignmentids' => $assignmentidss,
@@ -101,26 +95,6 @@ class AssignmentsController extends Controller
     }
     }
     header('Location: http://puzzeltocht.dev/home/tochten/'.$prevurl.'/' .$tripid);
-    //$assignmentids = $assignments->id;
-
-    //}
-    //else{
-
-   // }
-    //return $trip->id;
-    //if($trip->assignmentids == ""){
-     // DB::table('trips')->where('id', $tripid)->update([
-      //    'assignmentids' => $assignmentids,
-     // ]);
-   // }
-   // else{
-
-   // }
-   // $assignments = DB::table('assignments')->get();
-  //  foreach ($assignments as $assignment) {
-   //     if (strpos($assignment->tripids, $tripid) !== false) {
-   //     $data[] = $assignment->id;
-  //  }
   /**
   * Display the specified resource.
   *
@@ -193,8 +167,40 @@ class AssignmentsController extends Controller
   {
     isLoggedIn();
     Auth();
-    Assignments::find($id)->delete();
-    header('Location: http://puzzeltocht.dev/home/tochten/'.$prevurl.'/' .$tripid); 
+    /*$assignment = Assignments::find($id);
+    $trips = DB::table('trips')->where('id', $tripid)->get();
+    foreach($trips as $trip){
+      $assignmentids[] = $trip->assignmentids;
+    }
+    //return $assignmentids;
+    $str = implode(',', $assignmentids);
+    //return $str;
+   // return $assignment->id;
+    $assignmentid = $assignment->id;
+    $ID = (string)$assignmentid;
+    //return $assignmentid;
+    //return $assignmentid;
+    //if (strpos($str, )!== false){
+    //  return "YESSS";
+    //}
+    //return $assignmentid;
+    //if (stripos($str, '219') !== false) {
+    //  echo "True";
+    //}
+
+    if (strpos($str, $ID) === FALSE) {
+       return "YESS";
+    }
+    else{
+
+    }
+   // else{
+   //   return "wallah";
+   // }*/
+
+    //header('Location: http://puzzeltocht.dev/home/tochten/'.$prevurl.'/' .$tripid); 
+
+
 
   }
 
