@@ -70,7 +70,7 @@ table{
                         <h1>Nieuwe tocht</h1>
                         <div class="TopInput">
                             {!! Form::label('Tripname', 'Tochtnaam:') !!}
-                            {!! Form::text('tripname', $trip->tripname, array('maxlength' => 100 )) !!}
+                            {!! Form::text('tripname', $tripname, array('maxlength' => 100 )) !!}
                         </div>
                     </div>
 

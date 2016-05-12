@@ -10,6 +10,7 @@ use Request;
 use Input;
 use App\Trips;
 use App\Assignments;
+use App\Tripsassignments;
 use App\Http\Requests;
 
 	function Auth(){
@@ -44,7 +45,8 @@ class TripsController extends Controller
    		isLoggedIn();
    		Auth();
 		$trips = DB::table('trips')->get();
-		return view('trips.index',compact('trips'));
+		$assignments = DB::table('tripsassignments')->pluck('tripids');
+		return view('trips.index', compact('trips','assignments'));
 	} 	
 	public function wait(){
 		isLoggedIn();
@@ -59,15 +61,20 @@ class TripsController extends Controller
       isLoggedIn();
       Auth();
       $trips=Trips::find($tripid);
+
 	  $assignments = DB::table('assignments')->get();
 
-	  $assignmentids = $trips->assignmentids;
-	  if ($assignmentids == ""){
+	  $name = DB::table('tripsassignments')->where('tripids', $tripid)->pluck('assignmentsids');
+
+	  $ids = implode(',', $name);
+
+	  if ($ids == ""){
 	  	$assignments = "";
 	  }
 	  else{
-	  	$assignments = DB::select( DB::raw("SELECT * FROM assignments WHERE id IN($trips->assignmentids)") );
+	  	$assignments = DB::select( DB::raw("SELECT * FROM assignments WHERE id IN($ids)") );
 	  }
+
 	  return view('trips.create',compact('assignments','tripid'));
 	}
   	/**
@@ -80,9 +87,16 @@ class TripsController extends Controller
   		isLoggedIn();
   		Auth();
   		$trip = Request::all($tripid);
+  		$assignments = DB::table('tripsassignments')->where('tripids', $tripid)->pluck('tripids');
 
+		$assignments = array_count_values($assignments);
+
+		$assignments = (array_values($assignments));
+
+		$assignments =  implode("",$assignments);
 		DB::table('trips')->where('id', $tripid)->update([
 			'tripname' => $trip['tripname'],
+			'assignments' => $assignments,
 	    ]);
     	return redirect('/home/tochten'); 
 	}
@@ -96,13 +110,19 @@ class TripsController extends Controller
 	{	
 	  isLoggedIn();
 	  Auth();
-	  $trip = Trips::find($tripid);
-	 // return $trip;
+
+	  $trips = Trips::find($tripid);
+	  $tripname = $trips->tripname;
+
 	  $assignments = DB::table('assignments')->get();
 
-	  $assignments = DB::select( DB::raw("SELECT * FROM assignments WHERE id IN($trip->assignmentids)") );
+	  $name = DB::table('tripsassignments')->where('tripids', $tripid)->pluck('assignmentsids');
 
-	  return view('trips.show',compact('trip','assignments'));
+	  $ids = implode(',', $name);
+
+	  $assignments = DB::select( DB::raw("SELECT * FROM assignments WHERE id IN($ids)") );
+
+	  return view('trips.show',compact('assignments','tripid','tripname'));
 	}
 
 	/**
@@ -115,13 +135,18 @@ class TripsController extends Controller
 	{
 	  isLoggedIn();
 	  Auth();
-	  $trip = Trips::find($tripid);
-	 // return $trip;
+	  $trips=Trips::find($tripid);
+	  $tripname = $trips->tripname;
+
 	  $assignments = DB::table('assignments')->get();
 
-	  $assignments = DB::select( DB::raw("SELECT * FROM assignments WHERE id IN($trip->assignmentids)") );
+	  $name = DB::table('tripsassignments')->where('tripids', $tripid)->pluck('assignmentsids');
 
-	  return view('trips.edit',compact('trip','assignments','tripid'));
+	  $ids = implode(',', $name);
+
+	  $assignments = DB::select( DB::raw("SELECT * FROM assignments WHERE id IN($ids)") );
+	  
+	  return view('trips.edit',compact('assignments','tripid','tripname'));
 	}
 	/**
 	* Update the specified resource in storage.
@@ -134,11 +159,10 @@ class TripsController extends Controller
 	  isLoggedIn();
 	  Auth();
 	  $trip = Request::all($tripid);
-
-		DB::table('trips')->where('id', $tripid)->update([
-			'tripname' => $trip['tripname'],
-	    ]);
-    	return redirect('/home/tochten'); 
+	  DB::table('trips')->where('id', $tripid)->update([
+		'tripname' => $trip['tripname'],
+	  ]);
+	  return redirect('/home/tochten'); 
 	}
 	
 	/**
@@ -152,6 +176,7 @@ class TripsController extends Controller
 	  isLoggedIn();
 	  Auth();
 	  Trips::find($id)->delete();
+	  $assignments = DB::select( DB::raw("DELETE FROM tripsassignments WHERE tripids = $id") );
 	  return redirect('/home/tochten');
 	}
 }

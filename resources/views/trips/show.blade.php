@@ -4,7 +4,7 @@
 	<title>dasd</title>
 </head>
 <body>
-	<h1>{{ $trip->tripname }}</h1>
+	<h1>{{ $tripname}}</h1>
 	<?php if ($assignments == "") : ?>
 		<div>
 			<h1>No data found!</h1>

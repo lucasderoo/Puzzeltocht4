@@ -9,6 +9,7 @@ use Auth;
 use App\Assignments;
 use App\Http\Requests;
 use App\Trips;
+use App\Tripsassignments;
 
 use Illuminate\Support\Facades\Redirect;
 
@@ -77,7 +78,16 @@ class AssignmentsController extends Controller
         'correct_answer' => $assignments['correct_answer'],
         'location' => $assignments['location'],
     ]);
-    $trips = DB::table('trips')->where('id', $tripid)->get();
+    $newtrips = TripsAssignments::create([
+        'tripids' => $tripid,
+        'assignmentsids' => $assignments->id,
+    ]);
+
+
+
+
+
+    /*$trips = DB::table('trips')->where('id', $tripid)->get();
     foreach($trips as $trip){
       $assignmentids = $trip->assignmentids;
     }
@@ -93,7 +103,9 @@ class AssignmentsController extends Controller
         'assignmentids' => $assignmentids .',' . $assignmentidss,
       ]);
     }
-    }
+    }*/
+
+
     header('Location: http://puzzeltocht.dev/home/tochten/'.$prevurl.'/' .$tripid);
   /**
   * Display the specified resource.
@@ -159,6 +171,9 @@ class AssignmentsController extends Controller
     elseif($prevurl == "http://puzzeltocht.dev/home/tochten/edit/".$tripid){
         $prevurl = "edit";
     }
+    else{
+
+    }
     $assignment = Assignments::find($id);
     return view('assignments.delete',compact('assignment','tripid','id','prevurl'));
   }
@@ -167,41 +182,13 @@ class AssignmentsController extends Controller
   {
     isLoggedIn();
     Auth();
-    /*$assignment = Assignments::find($id);
-    $trips = DB::table('trips')->where('id', $tripid)->get();
-    foreach($trips as $trip){
-      $assignmentids[] = $trip->assignmentids;
-    }
-    //return $assignmentids;
-    $str = implode(',', $assignmentids);
-    //return $str;
-   // return $assignment->id;
-    $assignmentid = $assignment->id;
-    $ID = (string)$assignmentid;
-    //return $assignmentid;
-    //return $assignmentid;
-    //if (strpos($str, )!== false){
-    //  return "YESSS";
-    //}
-    //return $assignmentid;
-    //if (stripos($str, '219') !== false) {
-    //  echo "True";
-    //}
 
-    if (strpos($str, $ID) === FALSE) {
-       return "YESS";
-    }
-    else{
+    Assignments::find($id)->delete();
 
-    }
-   // else{
-   //   return "wallah";
-   // }*/
-
-    //header('Location: http://puzzeltocht.dev/home/tochten/'.$prevurl.'/' .$tripid); 
+    $assignments = DB::select( DB::raw("DELETE FROM tripsassignments WHERE assignmentsids = $id") );
 
 
-
+    header('Location: http://puzzeltocht.dev/home/tochten/'.$prevurl.'/' .$tripid); 
   }
 
   public function active($id)
@@ -218,7 +205,12 @@ class AssignmentsController extends Controller
     return redirect()->back();  
   }
   public function connect($tripid){
-    $assignments = DB::table('assignments')->get();
+    $assignments = DB::table('tripsassignments')->where('tripids', $tripid)->pluck('assignmentsids');
+
+    $assignments = implode(',', $assignments);
+
+    $assignments = DB::select(DB::raw("SELECT * FROM assignments WHERE id NOT IN ($assignments)"));
+
     $prevurl = $_SERVER['HTTP_REFERER'];
     if($prevurl == "http://puzzeltocht.dev/home/tochten/create/".$tripid){
         $prevurl = "create";
@@ -232,7 +224,7 @@ class AssignmentsController extends Controller
   {
     isLoggedIn();
     Auth();
-    $trip=Trips::find($tripid);
+    /*$trip=Trips::find($tripid);
     $assignmentids = $_POST['connect'];
     $assignmentidss = implode(',',$assignmentids);
     $assignments = DB::table('assignments')->get();
@@ -246,7 +238,16 @@ class AssignmentsController extends Controller
       DB::table('trips')->where('id', $tripid)->update([
         'assignmentids' => $assignmentids .',' . $assignmentidss,
       ]);
+    }*/
+    $assignmentsids = $_POST['connect'];
+    foreach($assignmentsids as $assignmentsid){
+      $newtrips = TripsAssignments::create([
+        'tripids' => $tripid,
+        'assignmentsids' => $assignmentsid,
+    ]);
     }
+
+
     header('Location: http://puzzeltocht.dev/home/tochten/'.$prevurl.'/' .$tripid);
   }
   /**

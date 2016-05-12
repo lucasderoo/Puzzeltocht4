@@ -81,7 +81,7 @@ table{
                     <table class="table-striped">
                             <tr>
                                 <th>Tripsnaam</th>
-                                <th>Gekoppelde opdrachten</th>
+                                <th>Aantal opdrachten</th>
                                 <th>Aanpassen</th>
                                 <th>Verwijderen</th>
                             </tr>
@@ -96,7 +96,7 @@ table{
                             @foreach ($trips as $trip)
                             <tr class='clickable-row DataTR' data-href="/home/tochten/show/{{$trip->id}}">
                                 <td>{{ $trip->tripname }}</td>
-                                <td>{{ $trip->assignmentids }}</td>
+                                <td>{{ $trip->assignments }}</td>
                                 <td><a class="btn btn-info" href="/home/tochten/edit/{{$trip->id}}">edit</a></td>
                                 <td>
                                 {!! Form::open(['method' => 'DELETE', 'route' => ['home.tochten.destroy', $trip->id]]) !!}
